@@ -1,3 +1,4 @@
+// src/components/TelaVendedores.js
 import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import logo from '../assets/logo.png';
@@ -19,7 +20,7 @@ const TelaVendedores = () => {
     // Validação: Nome e valor
     if (valorNumerico >= 15 && nomeBarraca.trim() !== '') {
       const token = Date.now(); // Gera um token único baseado no timestamp atual
-      const urlFormulario = `http://192.168.0.102:3000/formulario?token=${token}`;
+      const urlFormulario = `https://expocaju2024.vercel.app/formulario-cliente?token=${token}`; // Atualizado para o URL correto
 
       // Gera o QR Code com a URL do formulário
       setQrCodeValue(urlFormulario);

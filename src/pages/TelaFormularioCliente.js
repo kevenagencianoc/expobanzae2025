@@ -1,7 +1,9 @@
+// src/components/TelaFormularioCliente.js
 import React, { useEffect, useState } from 'react';
 import { adicionarInscricao } from '../utils/firebaseConfig';
 import './TelaFormularioCliente.css';
 import logo from '../assets/logo.png';
+import ProtectedRoute from '../components/ProtectedRoute'; // Importa o ProtectedRoute
 
 const TelaFormularioCliente = () => {
   const [nomeCompleto, setNomeCompleto] = useState('');
@@ -34,47 +36,49 @@ const TelaFormularioCliente = () => {
   };
 
   return (
-    <div className="form-container">
-      <img src={logo} alt="Logo do Evento" className="logo" />
-      <h1 className="title">Cadastro para o Sorteio</h1>
-      <p className="descriptioncli">
-        Preencha o formulário abaixo para participar do sorteio.<br />
-        Certifique-se de que todas as informações estão corretas.
-      </p>
-      <form className="form" onSubmit={enviarFormulario}>
-        <input 
-          type="text" 
-          placeholder="Nome Completo" 
-          value={nomeCompleto} 
-          onChange={(e) => setNomeCompleto(e.target.value)} 
-          required 
-        />
-        <input 
-          type="tel" 
-          placeholder="Telefone" 
-          value={telefone} 
-          onChange={(e) => setTelefone(e.target.value)} 
-          required 
-        />
-        <input 
-          type="text" 
-          placeholder="Endereço" 
-          value={endereco} 
-          onChange={(e) => setEndereco(e.target.value)} 
-          required 
-        />
-        <input 
-          type="email" 
-          placeholder="E-mail" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-        />
-        <button type="submit">Cadastrar</button>
-      </form>
+    <ProtectedRoute type="formulario">
+      <div className="form-container">
+        <img src={logo} alt="Logo do Evento" className="logo" />
+        <h1 className="title">Cadastro para o Sorteio</h1>
+        <p className="descriptioncli">
+          Preencha o formulário abaixo para participar do sorteio.<br />
+          Certifique-se de que todas as informações estão corretas.
+        </p>
+        <form className="form" onSubmit={enviarFormulario}>
+          <input 
+            type="text" 
+            placeholder="Nome Completo" 
+            value={nomeCompleto} 
+            onChange={(e) => setNomeCompleto(e.target.value)} 
+            required 
+          />
+          <input 
+            type="tel" 
+            placeholder="Telefone" 
+            value={telefone} 
+            onChange={(e) => setTelefone(e.target.value)} 
+            required 
+          />
+          <input 
+            type="text" 
+            placeholder="Endereço" 
+            value={endereco} 
+            onChange={(e) => setEndereco(e.target.value)} 
+            required 
+          />
+          <input 
+            type="email" 
+            placeholder="E-mail" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
+          <button type="submit">Cadastrar</button>
+        </form>
 
-      {mensagemSucesso && <p className="mensagemSucesso">{mensagemSucesso}</p>}
-    </div>
+        {mensagemSucesso && <p className="mensagemSucesso">{mensagemSucesso}</p>}
+      </div>
+    </ProtectedRoute>
   );
 };
 
