@@ -33,4 +33,4 @@ const ProtectedRoute = ({ children, type }) => {
   return children; // Renderiza os filhos se estiver autenticado ou se tiver um token
 };
 
-export default ProtectedRoute;
+export default ProtectedRoute; 
