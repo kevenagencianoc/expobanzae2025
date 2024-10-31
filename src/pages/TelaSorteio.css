@@ -1,0 +1,76 @@
+.sorteio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Mantém a altura da tela */
+  background: linear-gradient(135deg, #0C2963 30%, #190808 100%); /* Gradiente de fundo */
+  padding: 20px;
+}
+
+
+.logo {
+  width: 200px; /* Tamanho da logo */
+  margin-bottom: 20px; /* Espaçamento abaixo da logo */
+  border-radius: 10px; /* Bordas arredondadas na logo */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra na logo */
+}
+
+.title {
+  color: #ffffff !important; /* Cor do título */
+  font-size: 2.5rem; /* Tamanho da fonte do título */
+  margin-bottom: 10px; /* Espaçamento abaixo do título */
+}
+
+.sorteio-container button {
+  padding: 10px; /* Padding interno do botão */
+  background-color: #E8CB67; /* Cor de fundo do botão */
+  color: #190808 !important; /* Cor do texto do botão */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de mão ao passar sobre o botão */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave */
+  font-size: 1.2rem; /* Tamanho da fonte do botão */
+  margin-bottom: 20px; /* Espaçamento abaixo do botão */
+}
+
+.sorteio-container button:hover {
+  background-color: #0C2963; /* Cor do botão ao passar o mouse */
+  color: #ffffff !important; /* Muda a cor do texto para branco ao passar o mouse */
+}
+
+.resultado {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #E8CB67; /* Borda ao redor do resultado */
+  border-radius: 10px; /* Aumentando o raio da borda */
+  background-color: rgba(255, 255, 255, 0.9); /* Fundo do resultado levemente transparente */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave e elevada */
+  width: 100%; /* Largura total do contêiner de resultado */
+  max-width: 400px; /* Limitar a largura máxima do resultado */
+  text-align: center; /* Centralizando o texto */
+}
+
+.resultado h2 {
+  font-size: 2.5rem; /* Aumentando o tamanho do título do resultado */
+  margin-bottom: 15px; /* Aumentando o espaçamento abaixo do título */
+  color: #0C2963; /* Cor do título do resultado */
+  font-weight: bold; /* Deixando o título em negrito */
+}
+
+.resultado p {
+  font-size: 1.2rem; /* Aumentando o tamanho da fonte dos detalhes */
+  margin: 5px 0; /* Ajustando a margem superior e inferior dos parágrafos */
+  color: #1717B3; /* Cor dos detalhes do vencedor */
+  font-weight: 500; /* Definindo peso da fonte */
+}
+
+.resultado strong {
+  color: #000; /* Cor do texto em negrito (etiquetas) */
+}
+
+.error {
+  color: red; /* Cor da mensagem de erro */
+  margin-top: 10px;
+  font-weight: bold;
+}

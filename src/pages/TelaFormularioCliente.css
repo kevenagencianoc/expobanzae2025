@@ -1,0 +1,75 @@
+/* src/pages/TelaFormularioCliente.css */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Mantém a altura da tela */
+  background: linear-gradient(135deg, #0C2963 30%, #190808 100%); /* Gradiente de fundo */
+  padding: 20px;
+}
+
+.logo {
+  width: 200px; /* Tamanho da logo */
+  margin-bottom: 20px; /* Espaçamento abaixo da logo */
+  border-radius: 10px; /* Bordas arredondadas na logo */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra na logo */
+}
+
+.title {
+  color: #E8CB67; /* Cor do título */
+  font-size: 2.5rem; /* Tamanho da fonte do título */
+  margin-bottom: 10px; /* Espaçamento abaixo do título */
+}
+
+.descriptioncli{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.description {
+  color: #ffffff; /* Cor da descrição */
+  font-weight: 500; /* Peso da fonte da descrição */
+  margin-bottom: 20px; /* Espaçamento abaixo da descrição */
+  text-align: center; /* Centraliza o texto */
+  font-size: 1.3rem; /* Tamanho da fonte da descrição */
+}
+
+.form {
+  display: flex;
+  flex-direction: column; /* Alinhamento vertical */
+  width: 100%; /* Largura total */
+  max-width: 400px; /* Largura máxima da forma */
+}
+
+.form input {
+  padding: 10px; /* Padding interno */
+  margin-bottom: 15px; /* Espaçamento abaixo dos inputs */
+  border: 1px solid #E8CB67; /* Borda colorida */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra nos inputs */
+  font-size: 16px; /* Tamanho da fonte dos inputs */
+}
+
+.form button {
+  padding: 10px; /* Padding interno do botão */
+  background-color: #E8CB67; /* Cor de fundo do botão */
+  color: #190808; /* Cor do texto do botão */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de mão ao passar sobre o botão */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave */
+}
+
+.form button:hover {
+  background-color: #0C2963; /* Cor do botão ao passar o mouse */
+  color: #ffffff; /* Muda a cor do texto para branco ao passar o mouse */
+}
+
+.mensagemSucesso {
+  color: #E8CB67; /* Cor da mensagem de sucesso */
+  margin-top: 20px; /* Espaçamento acima da mensagem */
+}

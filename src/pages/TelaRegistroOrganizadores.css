@@ -1,0 +1,75 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ocupa toda a altura da tela */
+  background-color: #0C2963; /* Cor de fundo da tela */
+  padding: 20px;
+  box-sizing: border-box; /* Para incluir o padding na largura total */
+}
+
+.logo {
+  width: 150px; /* Ajuste o tamanho da logo conforme necessário */
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #E8CB67; /* Cor do título */
+  font-size: 2.5rem; /* Tamanho da fonte do título */
+  margin-bottom: 10px;
+  text-align: center; /* Centraliza o texto */
+}
+
+.description {
+  color: #E8CB67; /* Cor do texto */
+  font-weight: 500; /* Peso da fonte */
+  margin-bottom: 20px;
+  text-align: center; /* Centraliza o texto */
+  font-size: 1rem;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Pode ajustar a largura conforme necessário */
+  max-width: 400px; /* Largura máxima do formulário */
+}
+
+.register-form input {
+  padding: 12px; /* Padding interno dos inputs */
+  margin-bottom: 15px; /* Espaço entre os inputs */
+  border: 1px solid #ccc; /* Borda dos inputs */
+  border-radius: 5px; /* Bordas arredondadas */
+  font-size: 1rem; /* Tamanho da fonte dos inputs */
+}
+
+.register-form button {
+  padding: 12px; /* Padding interno do botão */
+  background-color: #F57C29; /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+  font-size: 1rem; /* Tamanho da fonte do botão */
+}
+
+.register-form button:hover {
+  background-color: #fff; /* Cor de fundo ao passar o mouse */
+  color: #0C2963; /* Cor do texto ao passar o mouse */
+}
+
+/* Estilos Responsivos */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem; /* Tamanho da fonte do título em telas menores */
+  }
+  
+  .register-form input {
+    font-size: 0.9rem; /* Tamanho da fonte dos inputs em telas menores */
+  }
+
+  .register-form button {
+    font-size: 0.9rem; /* Tamanho da fonte do botão em telas menores */
+  }
+}

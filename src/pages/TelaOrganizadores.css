@@ -1,0 +1,149 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%; /* Garante que o body ocupe 100% da altura da janela */
+  overflow-x: hidden; /* Remove a rolagem horizontal */
+  overflow-y: auto; /* Habilita rolagem vertical */
+}
+
+/* Estilização do container principal */
+.organizadores-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #0C2963 30%, #190808 100%); /* Gradiente de fundo */
+  padding: 40px 20px; /* Padding superior e inferior */
+  min-height: 100vh; /* Garante que a altura mínima da página permita rolagem */
+}
+
+/* Logo */
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 30px; /* Espaçamento abaixo da logo */
+}
+
+h3 {
+  color: #fff;
+  font-size: 22px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* Título principal */
+.title {
+  font-size: 2.5rem; /* Aumentado para maior destaque */
+  color: #E8CB67; /* Cor que se destaca e combina com a paleta */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px; /* Aumentado para um espaço mais amplo */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra para destaque */
+}
+
+/* Total de vendas */
+.total-vendas {
+  font-size: 1.8rem; /* Aumentado para melhor legibilidade */
+  color: #E8CB67; /* Consistente com a paleta de cores */
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Lista de cards */
+.cards-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 600px; /* Limita a largura dos cards */
+  margin: 0; /* Remove margem para centralizar */
+  display: grid; /* Usando grid para melhor disposição */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Cards responsivos */
+  gap: 15px; /* Espaçamento entre os cards */
+}
+
+/* Estilo dos cards */
+.card { /* Aplica o estilo aos cards */
+  background-color: #F9D67A; /* Cor de fundo dos cards */
+  border-radius: 8px;
+  padding: 20px; /* Aumentado para maior conforto visual */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+  font-size: 1.2rem; /* Aumentado para legibilidade */
+  color: #333; /* Texto em cinza escuro */
+  text-align: center; /* Centraliza o texto nos cards */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suavização de transição */
+}
+
+/* Títulos e valores dentro dos cards */
+.card-title {
+  font-weight: bold; /* Destaca o nome da barraca */
+  font-size: 1.4rem; /* Aumenta o tamanho da fonte */
+}
+
+.card-value {
+  display: block; /* Faz o valor ocupar uma linha separada */
+  margin-top: 5px; /* Espaço entre o título e o valor */
+  font-size: 1.2rem; /* Tamanho da fonte do valor */
+  color: #0C2963; /* Cor do valor */
+}
+
+/* Efeito de elevação nos cards */
+.card:hover {
+  transform: translateY(-5px); /* Efeito de destaque ao passar o mouse */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* Sombra mais intensa ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cards-list {
+    grid-template-columns: 1fr; /* Cards em coluna */
+  }
+}
+
+@media (min-width: 768px) {
+  .organizadores-container {
+    padding: 60px; /* Aumentado para maior espaço em telas grandes */
+  }
+
+  .title {
+    font-size: 3rem; /* Aumentado para telas maiores */
+  }
+
+  .total-vendas {
+    font-size: 2.5rem; /* Aumentado para maior destaque */
+  }
+
+  .cards-list .card {
+    font-size: 1.3rem; /* Aumentado para legibilidade em telas grandes */
+  }
+}
+
+/* Estilo dos botões */
+.button {
+  padding: 12px 25px; /* Aumentado para conforto */
+  margin: 10px; /* Espaçamento consistente */
+  background-color: #0C2963; /* Cor consistente com o tema */
+  color: #ffffff; /* Texto branco */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro */
+  font-size: 16px; /* Tamanho da fonte */
+  transition: background-color 0.3s ease; /* Suavização de transição */
+}
+
+.button:hover {
+  background-color: #1D3B85; /* Cor ao passar o mouse */
+}
+
+/* Botão limpar */
+.limpar {
+  background-color: red; /* Cor de fundo */
+}
+
+.limpar:hover {
+  background-color: darkred; /* Cor ao passar o mouse */
+}

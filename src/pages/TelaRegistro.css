@@ -1,0 +1,39 @@
+/* src/pages/TelaRegistro.css */
+.registro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #F5F5F5;
+    padding: 20px;
+  }
+  
+  .registro-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .registro-form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .registro-form button {
+    padding: 10px;
+    background-color: #F57C29;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .registro-form button:hover {
+    background-color: #fff;
+    color: #190808;
+    border: 1px solid #F57C29;
+  }
