@@ -1,7 +1,6 @@
-// src/utils/firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; // Importando as funções necessárias
-import { getFirestore, collection, addDoc, getDocs, Timestamp } from "firebase/firestore"; // Importando Firestore
+import { getFirestore, collection, addDoc, getDocs, Timestamp, writeBatch, doc } from "firebase/firestore"; // Adicionando writeBatch e doc para Firestore
 
 // Configuração do Firebase do seu aplicativo da web
 const firebaseConfig = { 
@@ -59,3 +58,46 @@ const realizarSorteio = async () => {
 
 // Exportando as funções necessárias
 export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, db, adicionarInscricao, buscarInscricoes, realizarSorteio };
+
+// Registrar uma nova venda no Firestore
+const registrarVenda = async (nome, valor) => {
+  try {
+    await addDoc(collection(db, 'vendas'), {
+      nome,
+      valor,
+      dataVenda: Timestamp.fromDate(new Date()),
+    });
+  } catch (e) {
+    console.error('Erro ao registrar venda:', e);
+    throw e;
+  }
+};
+
+// Buscar vendas do Firestore
+const buscarVendas = async () => {
+  const vendas = [];
+  const querySnapshot = await getDocs(collection(db, 'vendas'));
+  querySnapshot.forEach((doc) => {
+    vendas.push({ id: doc.id, ...doc.data() });
+  });
+  return vendas;
+};
+
+// Limpar todas as vendas do Firestore
+const limparVendasFirestore = async () => {
+  const querySnapshot = await getDocs(collection(db, 'vendas'));
+  const batch = writeBatch(db); // Usando o writeBatch (correto para Firestore v9+)
+
+  querySnapshot.forEach((docSnapshot) => {
+    batch.delete(doc(db, 'vendas', docSnapshot.id)); // Criando a referência e deletando
+  });
+
+  try {
+    await batch.commit(); // Commitando todas as operações de uma vez
+    console.log('Todas as vendas foram limpas!');
+  } catch (error) {
+    console.error('Erro ao limpar vendas:', error);
+  }
+};
+
+export { registrarVenda, buscarVendas, limparVendasFirestore };
