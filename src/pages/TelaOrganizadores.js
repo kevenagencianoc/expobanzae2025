@@ -19,14 +19,33 @@ const TelaOrganizadores = () => {
   const atualizarVendas = async () => {
     try {
       const vendasRegistradas = await buscarVendas();
-      setVendas(vendasRegistradas);
       
-      // Calcula o total de vendas de maneira segura
-      const total = vendasRegistradas.reduce((soma, venda) => {
-        const valor = typeof venda.valor === 'number' && !isNaN(venda.valor) ? venda.valor : 0;
-        return soma + valor;
-      }, 0);
-      
+      // Agrupar as vendas por barraca (nome) e somar os valores
+      const vendasAgrupadas = vendasRegistradas.reduce((acc, venda) => {
+        const nomeBarraca = venda.nome;
+        const valorVenda = typeof venda.valor === 'number' && !isNaN(venda.valor) ? venda.valor : 0;
+
+        // Se a barraca já existe no acumulador, soma o valor da venda
+        if (acc[nomeBarraca]) {
+          acc[nomeBarraca] += valorVenda;
+        } else {
+          // Caso contrário, cria uma nova entrada no acumulador
+          acc[nomeBarraca] = valorVenda;
+        }
+
+        return acc;
+      }, {});
+
+      // Transformar o objeto agrupado em um array de barracas
+      const vendasFinal = Object.keys(vendasAgrupadas).map(nomeBarraca => ({
+        nome: nomeBarraca,
+        valor: vendasAgrupadas[nomeBarraca]
+      }));
+
+      setVendas(vendasFinal);
+
+      // Calcula o total de vendas
+      const total = vendasFinal.reduce((soma, venda) => soma + venda.valor, 0);
       setTotalVendas(total);
     } catch (e) {
       console.error('Erro ao buscar vendas:', e);
@@ -58,7 +77,7 @@ const TelaOrganizadores = () => {
         </button>
       </div>
 
-      {/* Verificação de totalVendas */}
+      {/* Exibe o total de vendas */}
       <h2 className="total-vendas">
         Total de Vendas Do Evento: R$ {totalVendas > 0 ? totalVendas.toFixed(2) : '0.00'}
       </h2>
@@ -69,9 +88,7 @@ const TelaOrganizadores = () => {
         <ul className="cards-list">
           {vendas.length > 0 ? (
             vendas.map((barraca, index) => {
-              const valorFormatado = (typeof barraca.valor === 'number' && !isNaN(barraca.valor)) 
-                ? barraca.valor.toFixed(2) 
-                : 'Valor inválido'; // Exibe "Valor inválido" se não for um número válido
+              const valorFormatado = barraca.valor.toFixed(2); // Valor formatado para exibição
               return (
                 <li key={index} className="card">
                   <strong className="card-title">{barraca.nome}</strong>

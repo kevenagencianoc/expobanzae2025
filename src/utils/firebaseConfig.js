@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; // Importando as funções necessárias
-import { getFirestore, collection, addDoc, getDocs, Timestamp, writeBatch, doc } from "firebase/firestore"; // Adicionando writeBatch e doc para Firestore
+import { getFirestore, collection, addDoc, getDocs, Timestamp, writeBatch, doc, query, where } from "firebase/firestore"; // Adicionando query e where para filtragem
 
 // Configuração do Firebase do seu aplicativo da web
 const firebaseConfig = { 
@@ -56,9 +56,6 @@ const realizarSorteio = async () => {
   return vencedor;
 };
 
-// Exportando as funções necessárias
-export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, db, adicionarInscricao, buscarInscricoes, realizarSorteio };
-
 // Registrar uma nova venda no Firestore
 const registrarVenda = async (nome, valor) => {
   try {
@@ -83,6 +80,17 @@ const buscarVendas = async () => {
   return vendas;
 };
 
+// Obter vendas por barraca
+const obterVendasPorBarraca = async (nomeBarraca) => {
+  const vendas = [];
+  const q = query(collection(db, 'vendas'), where("nome", "==", nomeBarraca)); // Filtrando por nome da barraca
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    vendas.push({ id: doc.id, ...doc.data() });
+  });
+  return vendas;
+};
+
 // Limpar todas as vendas do Firestore
 const limparVendasFirestore = async () => {
   const querySnapshot = await getDocs(collection(db, 'vendas'));
@@ -100,4 +108,5 @@ const limparVendasFirestore = async () => {
   }
 };
 
-export { registrarVenda, buscarVendas, limparVendasFirestore };
+// Exportando as funções necessárias
+export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, db, adicionarInscricao, buscarInscricoes, realizarSorteio, registrarVenda, buscarVendas, obterVendasPorBarraca, limparVendasFirestore };

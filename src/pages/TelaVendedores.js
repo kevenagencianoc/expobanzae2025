@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import logo from '../assets/logo.png';
-import { registrarVenda } from '../utils/firebaseConfig'; // Importa função do Firebase
+import { registrarVenda, obterVendasPorBarraca } from '../utils/firebaseConfig'; // Importa funções do Firebase
 import './TelaVendedores.css';
 
 const TelaVendedores = () => {
@@ -11,6 +11,7 @@ const TelaVendedores = () => {
   const [mensagemSucesso, setMensagemSucesso] = useState('');
   const [qrCodeAtivo, setQrCodeAtivo] = useState(false);
   const [contador, setContador] = useState(60);
+  const [totalVendasBarraca, setTotalVendasBarraca] = useState(0); // Armazena o total de vendas por barraca
 
   const gerarQRCode = async () => {
     const valorNumerico = parseFloat(valorVenda);
@@ -20,10 +21,14 @@ const TelaVendedores = () => {
       const urlFormulario = `https://expocaju2024.vercel.app/formulario-cliente?token=${token}`;
 
       try {
-        await registrarVenda(nomeBarraca, valorNumerico);
+        await registrarVenda(nomeBarraca, valorNumerico); // Registra a venda
         setQrCodeValue(urlFormulario);
         setQrCodeAtivo(true);
         setMensagemSucesso(`Venda registrada com sucesso! Barraca: ${nomeBarraca}, Valor: R$ ${valorVenda}`);
+
+        // Atualiza o total de vendas da barraca
+        atualizarTotalVendas(nomeBarraca);
+
         setNomeBarraca('');
         setValorVenda('');
         setContador(60);
@@ -36,6 +41,16 @@ const TelaVendedores = () => {
     }
   };
 
+  const atualizarTotalVendas = async (barraca) => {
+    try {
+      const vendas = await obterVendasPorBarraca(barraca); // Obtém as vendas da barraca
+      const total = vendas.reduce((soma, venda) => soma + venda.valor, 0); // Soma os valores das vendas
+      setTotalVendasBarraca(total);
+    } catch (e) {
+      console.error('Erro ao atualizar o total de vendas:', e);
+    }
+  };
+
   useEffect(() => {
     if (qrCodeAtivo && contador > 0) {
       const timer = setTimeout(() => setContador(contador - 1), 1000);
@@ -45,6 +60,13 @@ const TelaVendedores = () => {
       setQrCodeAtivo(false);
     }
   }, [contador, qrCodeAtivo]);
+
+  useEffect(() => {
+    if (nomeBarraca.trim() !== '') {
+      // Quando o nome da barraca for alterado, atualiza o total de vendas
+      atualizarTotalVendas(nomeBarraca);
+    }
+  }, [nomeBarraca]);
 
   return (
     <div className="container">
@@ -75,6 +97,10 @@ const TelaVendedores = () => {
       </button>
 
       {mensagemSucesso && <p className="mensagemSucesso">{mensagemSucesso}</p>}
+
+      <div className="totalVendas">
+        <p><strong>Total de Vendas desta Barraca:</strong> R$ {totalVendasBarraca.toFixed(2)}</p>
+      </div>
 
       {qrCodeValue && (
         <div className="qrCodeContainer">
