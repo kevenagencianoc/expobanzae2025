@@ -7,22 +7,39 @@ import './TelaVendedores.css';
 const TelaVendedores = () => {
   const [nomeBarraca, setNomeBarraca] = useState('');
   const [valorVenda, setValorVenda] = useState('');
-  const [qrCodeValue, setQrCodeValue] = useState('');
-  const [mensagemSucesso, setMensagemSucesso] = useState('');
+  const [qrCodes, setQrCodes] = useState([]); // Agora armazenamos todos os QR Codes
   const [qrCodeAtivo, setQrCodeAtivo] = useState(false);
-  const [contador, setContador] = useState(60);
+  const [contador, setContador] = useState(120); // Inicializa o contador com 2 minutos
+  const [mensagemSucesso, setMensagemSucesso] = useState('');
   const [totalVendasBarraca, setTotalVendasBarraca] = useState(0); // Armazena o total de vendas por barraca
+  const [currentQRCodeIndex, setCurrentQRCodeIndex] = useState(0); // Controla qual QR Code está sendo exibido
 
+  // Função para gerar QR Codes e registrar vendas
   const gerarQRCode = async () => {
     const valorNumerico = parseFloat(valorVenda);
 
     if (valorNumerico >= 15 && nomeBarraca.trim() !== '') {
-      const token = Date.now();
-      const urlFormulario = `https://expocaju2024.vercel.app/formulario-cliente?token=${token}`;
+      const tokenBase = Date.now(); // Cria uma base de token única
 
       try {
-        await registrarVenda(nomeBarraca, valorNumerico); // Registra a venda
-        setQrCodeValue(urlFormulario);
+        // Calcula quantos cupons de R$ 15 são gerados
+        const numCupons = Math.floor(valorNumerico / 15);
+        const vendasRegistradas = [];
+        const qrCodesGerados = [];
+
+        // Registra múltiplas vendas e cria QR Codes
+        for (let i = 0; i < numCupons; i++) {
+          const token = tokenBase + i; // Gera um token único para cada QR Code
+          const urlFormulario = `https://expocaju2024.vercel.app/formulario-cliente?token=${token}`;
+
+          // Registra a venda no banco
+          await registrarVenda(nomeBarraca, 15); // Cada venda é registrada por R$ 15
+          vendasRegistradas.push(urlFormulario);
+          qrCodesGerados.push(urlFormulario); // Adiciona o QR Code à lista
+        }
+
+        // Atualiza o estado com os QR Codes gerados
+        setQrCodes(qrCodesGerados); // Salva todos os QR Codes gerados
         setQrCodeAtivo(true);
         setMensagemSucesso(`Venda registrada com sucesso! Barraca: ${nomeBarraca}, Valor: R$ ${valorVenda}`);
 
@@ -31,7 +48,32 @@ const TelaVendedores = () => {
 
         setNomeBarraca('');
         setValorVenda('');
-        setContador(60);
+        setContador(120); // Inicializa o contador para 2 minutos
+
+        let currentIndex = 0;
+
+        // Função para atualizar o QR Code a cada 2 minutos
+        const changeQRCode = () => {
+          if (currentIndex < qrCodes.length) {
+            setCurrentQRCodeIndex(currentIndex); // Atualiza o índice do QR Code ativo
+            setContador(120); // Reset o contador para 2 minutos para o próximo QR Code
+            currentIndex += 1;
+          } else {
+            setQrCodeAtivo(false); // Nenhum QR Code mais
+          }
+        };
+
+        // Intervalo de troca de QR Code a cada 2 minutos
+        const timerInterval = setInterval(() => {
+          if (contador === 0) {
+            changeQRCode();
+          } else {
+            setContador((prev) => prev - 1); // Atualiza o contador a cada segundo
+          }
+        }, 1000);
+
+        return () => clearInterval(timerInterval); // Limpa o intervalo quando o componente for desmontado
+
       } catch (e) {
         alert('Erro ao registrar venda. Tente novamente.');
         console.error(e);
@@ -41,6 +83,7 @@ const TelaVendedores = () => {
     }
   };
 
+  // Função para atualizar o total de vendas da barraca
   const atualizarTotalVendas = async (barraca) => {
     try {
       const vendas = await obterVendasPorBarraca(barraca); // Obtém as vendas da barraca
@@ -51,16 +94,23 @@ const TelaVendedores = () => {
     }
   };
 
+  // Efeito para gerenciar o tempo do contador e troca dos QR Codes
   useEffect(() => {
     if (qrCodeAtivo && contador > 0) {
       const timer = setTimeout(() => setContador(contador - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (contador === 0) {
-      setQrCodeValue('');
-      setQrCodeAtivo(false);
+    } else if (contador === 0 && qrCodes.length > 0) {
+      // Quando o contador chegar a 0, troca para o próximo QR Code
+      if (currentQRCodeIndex < qrCodes.length - 1) {
+        setCurrentQRCodeIndex((prevIndex) => prevIndex + 1);
+        setContador(120); // Reset o contador para 2 minutos
+      } else {
+        setQrCodeAtivo(false); // Se não houver mais QR Codes, encerra
+      }
     }
-  }, [contador, qrCodeAtivo]);
+  }, [contador, qrCodeAtivo, currentQRCodeIndex, qrCodes.length]);
 
+  // Efeito para atualizar as vendas ao alterar o nome da barraca
   useEffect(() => {
     if (nomeBarraca.trim() !== '') {
       // Quando o nome da barraca for alterado, atualiza o total de vendas
@@ -102,10 +152,10 @@ const TelaVendedores = () => {
         <p><strong>Total de Vendas desta Barraca:</strong> R$ {totalVendasBarraca.toFixed(2)}</p>
       </div>
 
-      {qrCodeValue && (
+      {qrCodeAtivo && qrCodes.length > 0 && (
         <div className="qrCodeContainer">
           <span className="qrCodeLabel">QR Code para a venda:</span>
-          <QRCodeSVG value={qrCodeValue} size={128} />
+          <QRCodeSVG value={qrCodes[currentQRCodeIndex]} size={128} />
           <p className="contador">Expira em: {contador}s</p>
         </div>
       )}

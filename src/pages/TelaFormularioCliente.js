@@ -1,5 +1,5 @@
-// src/components/TelaFormularioCliente.js
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { adicionarInscricao } from '../utils/firebaseConfig';
 import './TelaFormularioCliente.css';
 import logo from '../assets/logo.png';
@@ -11,6 +11,8 @@ const TelaFormularioCliente = () => {
   const [endereco, setEndereco] = useState('');
   const [email, setEmail] = useState('');
   const [mensagemSucesso, setMensagemSucesso] = useState('');
+  
+  const navigate = useNavigate(); // Hook para navegação
 
   const enviarFormulario = async (e) => {
     e.preventDefault();
@@ -29,6 +31,9 @@ const TelaFormularioCliente = () => {
       setTelefone('');
       setEndereco('');
       setEmail('');
+
+      // Redireciona para a tela de agradecimento após o envio
+      navigate('/obrigado'); // Caminho para a tela de agradecimento
     } catch (error) {
       console.error('Erro ao enviar inscrição:', error);
       setMensagemSucesso('Erro ao realizar a inscrição. Tente novamente.');
@@ -82,4 +87,4 @@ const TelaFormularioCliente = () => {
   );
 };
 
-export default TelaFormularioCliente; 
+export default TelaFormularioCliente;

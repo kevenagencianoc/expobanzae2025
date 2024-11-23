@@ -69,6 +69,25 @@
   font-size: 18px;
 }
 
+.totalVendas p{
+  color: #fff;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.qrCodeLabel{
+  color: #fff;
+}
+
+.contador{
+
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .input {

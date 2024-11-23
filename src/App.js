@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -12,6 +11,7 @@ import TelaFormularioCliente from './pages/TelaFormularioCliente';
 import TelaOrganizadores from './pages/TelaOrganizadores';
 import TelaRegistroOrganizadores from './pages/TelaRegistroOrganizadores'; // Import da tela de registro para organizadores
 import TelaSorteio from './pages/TelaSorteio'; // Import da nova tela de sorteio
+import TelaObrigado from './pages/TelaObrigado'; // Import da Tela de Agradecimento
 import ProtectedRoute from './components/ProtectedRoute'; // Import do ProtectedRoute
 
 const App = () => {
@@ -41,6 +41,7 @@ const App = () => {
           <Route path="/formulario-cliente" element={<TelaFormularioCliente />} />
           <Route path="/registro-organizadores" element={<TelaRegistroOrganizadores />} /> {/* Nova Rota para Registro de Organizadores */}
           <Route path="/sorteio" element={<TelaSorteio />} /> {/* Nova Rota para Sorteio */}
+          <Route path="/obrigado" element={<TelaObrigado />} /> {/* Nova Rota para Agradecimento */}
         </Routes>
       </Router>
     </Provider>
