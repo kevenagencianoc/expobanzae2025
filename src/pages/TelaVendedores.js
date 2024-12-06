@@ -48,15 +48,15 @@ const TelaVendedores = () => {
 
         setNomeBarraca('');
         setValorVenda('');
-        setContador(120); // Inicializa o contador para 2 minutos
+        setContador(60); // Inicializa o contador para 1 minutos
 
         let currentIndex = 0;
 
-        // Função para atualizar o QR Code a cada 2 minutos
+        // Função para atualizar o QR Code a cada 1 minutos
         const changeQRCode = () => {
           if (currentIndex < qrCodes.length) {
             setCurrentQRCodeIndex(currentIndex); // Atualiza o índice do QR Code ativo
-            setContador(120); // Reset o contador para 2 minutos para o próximo QR Code
+            setContador(60); // Reset o contador para 2 minutos para o próximo QR Code
             currentIndex += 1;
           } else {
             setQrCodeAtivo(false); // Nenhum QR Code mais

@@ -31,82 +31,118 @@ const adicionarInscricao = async (dadosInscricao) => {
     });
     console.log("Inscrição registrada com ID:", docRef.id);
   } catch (e) {
-    console.error("Erro ao adicionar inscrição: ", e);
+    console.error("Erro ao adicionar inscrição: ", e.message); // Exibe o erro com mais detalhes
   }
 };
 
 // Função para buscar inscrições
 const buscarInscricoes = async () => {
-  const inscritos = [];
-  const querySnapshot = await getDocs(collection(db, "inscricoes"));
-  querySnapshot.forEach((doc) => {
-    inscritos.push({ id: doc.id, ...doc.data() }); // Adiciona os dados e o ID do documento
-  });
-  return inscritos;
+  try {
+    const inscritos = [];
+    const querySnapshot = await getDocs(collection(db, "inscricoes"));
+    querySnapshot.forEach((doc) => {
+      inscritos.push({ id: doc.id, ...doc.data() }); // Adiciona os dados e o ID do documento
+    });
+    return inscritos;
+  } catch (e) {
+    console.error("Erro ao buscar inscrições: ", e.message); // Exibe o erro com mais detalhes
+    throw e; // Re-throw para propagação do erro
+  }
 };
 
 // Função para realizar o sorteio
 const realizarSorteio = async () => {
-  const inscritos = await buscarInscricoes();
-  if (inscritos.length === 0) {
-    throw new Error('Nenhuma inscrição encontrada.');
-  }
+  try {
+    const inscritos = await buscarInscricoes();
+    if (inscritos.length === 0) {
+      throw new Error('Nenhuma inscrição encontrada.');
+    }
 
-  const vencedor = inscritos[Math.floor(Math.random() * inscritos.length)]; // Escolhendo um vencedor aleatório
-  return vencedor;
+    const vencedor = inscritos[Math.floor(Math.random() * inscritos.length)]; // Escolhendo um vencedor aleatório
+    return vencedor;
+  } catch (e) {
+    console.error("Erro ao realizar sorteio: ", e.message);
+    throw e; // Re-throw do erro
+  }
 };
 
 // Registrar uma nova venda no Firestore
 const registrarVenda = async (nome, valor) => {
   try {
+    if (valor < 15) {
+      throw new Error("O valor da venda deve ser maior ou igual a R$ 15,00.");
+    }
     await addDoc(collection(db, 'vendas'), {
       nome,
       valor,
       dataVenda: Timestamp.fromDate(new Date()),
     });
+    console.log('Venda registrada com sucesso!');
   } catch (e) {
-    console.error('Erro ao registrar venda:', e);
-    throw e;
+    console.error('Erro ao registrar venda:', e.message); // Exibe o erro com mais detalhes
+    throw e; // Re-throw para o código chamador tratar
   }
 };
 
 // Buscar vendas do Firestore
 const buscarVendas = async () => {
-  const vendas = [];
-  const querySnapshot = await getDocs(collection(db, 'vendas'));
-  querySnapshot.forEach((doc) => {
-    vendas.push({ id: doc.id, ...doc.data() });
-  });
-  return vendas;
+  try {
+    const vendas = [];
+    const querySnapshot = await getDocs(collection(db, 'vendas'));
+    querySnapshot.forEach((doc) => {
+      vendas.push({ id: doc.id, ...doc.data() });
+    });
+    return vendas;
+  } catch (e) {
+    console.error("Erro ao buscar vendas: ", e.message);
+    throw e; // Re-throw para o código chamador tratar
+  }
 };
 
 // Obter vendas por barraca
 const obterVendasPorBarraca = async (nomeBarraca) => {
-  const vendas = [];
-  const q = query(collection(db, 'vendas'), where("nome", "==", nomeBarraca)); // Filtrando por nome da barraca
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    vendas.push({ id: doc.id, ...doc.data() });
-  });
-  return vendas;
+  try {
+    const vendas = [];
+    const q = query(collection(db, 'vendas'), where("nome", "==", nomeBarraca)); // Filtrando por nome da barraca
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      vendas.push({ id: doc.id, ...doc.data() });
+    });
+    return vendas;
+  } catch (e) {
+    console.error("Erro ao buscar vendas por barraca: ", e.message);
+    throw e; // Re-throw do erro
+  }
 };
 
 // Limpar todas as vendas do Firestore
 const limparVendasFirestore = async () => {
-  const querySnapshot = await getDocs(collection(db, 'vendas'));
-  const batch = writeBatch(db); // Usando o writeBatch (correto para Firestore v9+)
-
-  querySnapshot.forEach((docSnapshot) => {
-    batch.delete(doc(db, 'vendas', docSnapshot.id)); // Criando a referência e deletando
-  });
-
   try {
+    const querySnapshot = await getDocs(collection(db, 'vendas'));
+    const batch = writeBatch(db); // Usando o writeBatch (correto para Firestore v9+)
+
+    querySnapshot.forEach((docSnapshot) => {
+      batch.delete(doc(db, 'vendas', docSnapshot.id)); // Criando a referência e deletando
+    });
+
     await batch.commit(); // Commitando todas as operações de uma vez
     console.log('Todas as vendas foram limpas!');
   } catch (error) {
-    console.error('Erro ao limpar vendas:', error);
+    console.error('Erro ao limpar vendas:', error.message); // Exibe o erro com mais detalhes
   }
 };
 
 // Exportando as funções necessárias
-export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, db, adicionarInscricao, buscarInscricoes, realizarSorteio, registrarVenda, buscarVendas, obterVendasPorBarraca, limparVendasFirestore };
+export { 
+  auth, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  db, 
+  adicionarInscricao, 
+  buscarInscricoes, 
+  realizarSorteio, 
+  registrarVenda, 
+  buscarVendas, 
+  obterVendasPorBarraca, 
+  limparVendasFirestore 
+};
