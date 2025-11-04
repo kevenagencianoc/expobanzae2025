@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { buscarVendas, limparVendasFirestore } from '../utils/firebaseConfig'; // Importa funções do Firebase
 import './TelaOrganizadores.css';
-import logoEvento from '../assets/logo.png';
+import logoEvento from '../assets/logobranca.png';
 
 const TelaOrganizadores = () => {
   const [vendas, setVendas] = useState([]);

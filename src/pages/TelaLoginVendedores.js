@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from '../utils/firebaseConfig'; // Certifique-se do caminho correto
 import '../pages/TelaLoginVendedores.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logobranca.png';
 
 const TelaLoginVendedores = () => {
   const [email, setEmail] = useState('');

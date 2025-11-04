@@ -12,6 +12,7 @@ import TelaOrganizadores from './pages/TelaOrganizadores';
 import TelaRegistroOrganizadores from './pages/TelaRegistroOrganizadores'; // Import da tela de registro para organizadores
 import TelaSorteio from './pages/TelaSorteio'; // Import da nova tela de sorteio
 import TelaObrigado from './pages/TelaObrigado'; // Import da Tela de Agradecimento
+import TelaRegistro from './pages/TelaRegistro'; // Import da Tela de Agradecimento
 import ProtectedRoute from './components/ProtectedRoute'; // Import do ProtectedRoute
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/registro-organizadores" element={<TelaRegistroOrganizadores />} /> {/* Nova Rota para Registro de Organizadores */}
           <Route path="/sorteio" element={<TelaSorteio />} /> {/* Nova Rota para Sorteio */}
           <Route path="/obrigado" element={<TelaObrigado />} /> {/* Nova Rota para Agradecimento */}
+          <Route path="/registro" element={<TelaRegistro />} /> {/* Nova Rota para Agradecimento */}
         </Routes>
       </Router>
     </Provider>

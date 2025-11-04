@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './TelaObrigado.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logobranca.png';
 
 const TelaObrigado = () => {
+  useEffect(() => {
+    // Bloqueio leve do botão "voltar" (UX)
+    const push = () => window.history.pushState(null, '', window.location.href);
+    push();
+    window.addEventListener('popstate', push);
+    return () => window.removeEventListener('popstate', push);
+  }, []);
+
   return (
     <div className="thank-you-container">
       <img src={logo} alt="Logo do Evento" className="logo" />

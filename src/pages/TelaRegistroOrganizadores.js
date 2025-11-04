@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Para redirecionamento
 import '../pages/TelaRegistroOrganizadores.css'; // Importação do CSS
-import logo from '../assets/logo.png'; // Importando a logo
+import logo from '../assets/logobranca.png'; // Importando a logo
 import { auth } from '../utils/firebaseConfig'; // Importando Firebase Auth
 import { createUserWithEmailAndPassword } from 'firebase/auth'; // Importando método de registro
 

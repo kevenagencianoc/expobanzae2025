@@ -1,17 +1,96 @@
+/* === CONTAINER PRINCIPAL === */
 .thank-you-container {
-    text-align: center;
-    padding: 20px;
-    align-items: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #01692F 30%, #097044 100%) !important;
+  text-align: center;
+  padding: 20px;
+  color: #F1F9F0;
+  font-family: 'Neulis Alt', sans-serif;
+}
+
+/* === TÍTULO === */
+.thank-you-title {
+  font-size: 2.2rem;
+  margin: 20px 0 10px 0;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* === MENSAGEM === */
+.thank-you-message {
+  font-size: 1.3rem;
+  color: #FFFFFFCC;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* === LOGO (opcional) === */
+.logo {
+  width: 180px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* === BOTÃO DE VOLTAR (opcional, se existir) === */
+.back-button {
+  background-color: #308331;
+  color: #fff;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+  background-color: #238682;
+  transform: translateY(-3px);
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
   .thank-you-title {
-    font-size: 24px;
-    margin: 20px 0;
-    color: #fff;
+    font-size: 1.8rem;
   }
-  
+
   .thank-you-message {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #fff;
+    font-size: 1.1rem;
+    padding: 0 15px;
   }
+
+  .logo {
+    width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .thank-you-title {
+    font-size: 1.5rem;
+  }
+
+  .thank-you-message {
+    font-size: 1rem;
+  }
+
+  .logo {
+    width: 120px;
+  }
+}

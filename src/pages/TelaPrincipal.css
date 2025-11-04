@@ -1,105 +1,153 @@
 /* Reset e Configurações Globais */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  html, body {
-    height: 100%;
-    overflow: hidden;
-    background: #0D2559;
-    font-family: 'Poppins', sans-serif; /* Fonte mais moderna */
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #0C2963 30%, #190808 100%);
-    text-align: center;
-  }
-  
-  .header {
-    position: absolute;
-    top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #01692F !important;
+  font-family: 'Neulis Alt', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: space-between; /* dá mais respiro vertical */
+  background: linear-gradient(135deg, #01692F 30%, #097044 100%) !important;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* === TOPO / LOGO DO EVENTO === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.logo {
+  width: 250px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px; /* mais respiro */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* === CONTEÚDO CENTRAL === */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  flex: 1;
+  justify-content: center;
+}
+
+.titulo {
+  font-size: 2.6rem;
+  color: #FFFFFF !important;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button {
+  background-color: #308331 !important;
+  color: #FFFFFF !important;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #238682 !important;
+  transform: translateY(-3px);
+}
+
+/* === RODAPÉ / LOGO PREFEITURA === */
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 15px;
+}
+
+.logo-prefeitura {
+  width: 100px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+}
+
+.logo-prefeitura:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
   .logo {
-    width: 150px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    width: 200px;
+    padding: 15px;
   }
-  
-  .logo:hover {
-    transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
-  }
-  
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
+
   .titulo {
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 10px;
-    letter-spacing: 1px; /* Melhorando a legibilidade */
+    font-size: 2rem;
   }
-  
-  .button-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap; /* Permite que os botões fiquem em múltiplas linhas se necessário */
-    justify-content: center;
-  }
-  
+
   button {
-    background-color: #E8CB67;
-    color: #190808;
-    border: none;
-    border-radius: 8px;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 160px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    padding: 12px 22px;
+    min-width: 150px;
   }
-  
-  button:hover {
-    background-color: #190808;
-    color: #fff;
-    transform: translateY(-3px);
+
+  .logo-prefeitura {
+    width: 80px;
   }
-  
-  /* Media Queries para responsividade */
-  @media (max-width: 768px) {
-    .titulo {
-      font-size: 2rem;
-    }
-  
-    button {
-      font-size: 1rem;
-      padding: 12px 20px;
-    }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 160px;
+    padding: 12px;
   }
-  
-  @media (max-width: 480px) {
-    .logo {
-      width: 120px; /* Reduz o tamanho da logo em telas muito pequenas */
-    }
-  
-    .button-container {
-      gap: 10px;
-    }
+
+  .titulo {
+    font-size: 1.7rem;
   }
+
+  .button-container {
+    gap: 12px;
+  }
+
+  .logo-prefeitura {
+    width: 70px;
+  }
+}

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebaseConfig'; // Importando do caminho correto
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import '../pages/TelaRegistro.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logobranca.png';
 
 const TelaRegistro = () => {
   const [email, setEmail] = useState('');

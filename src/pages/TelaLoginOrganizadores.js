@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from '../utils/firebaseConfig';
 import './TelaLoginOrganizadores.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logobranca.png';
 
 const TelaLoginOrganizadores = () => {
   const [email, setEmail] = useState('');

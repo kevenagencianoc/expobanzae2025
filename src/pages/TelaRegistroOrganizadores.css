@@ -1,75 +1,139 @@
+/* === CONTAINER PRINCIPAL === */
 .register-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Ocupa toda a altura da tela */
-  background-color: #0C2963; /* Cor de fundo da tela */
+  height: 100vh;
+  background: linear-gradient(135deg, #01692F 30%, #097044 100%) !important;
   padding: 20px;
-  box-sizing: border-box; /* Para incluir o padding na largura total */
+  box-sizing: border-box;
+  text-align: center;
+  font-family: 'Neulis Alt', sans-serif;
 }
 
+/* === LOGO === */
 .logo {
-  width: 150px; /* Ajuste o tamanho da logo conforme necessário */
-  margin-bottom: 20px;
+  width: 170px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* === TÍTULO === */
 .title {
-  color: #E8CB67; /* Cor do título */
-  font-size: 2.5rem; /* Tamanho da fonte do título */
-  margin-bottom: 10px;
-  text-align: center; /* Centraliza o texto */
+  color: #F1F9F0;
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* === DESCRIÇÃO === */
 .description {
-  color: #E8CB67; /* Cor do texto */
-  font-weight: 500; /* Peso da fonte */
-  margin-bottom: 20px;
-  text-align: center; /* Centraliza o texto */
-  font-size: 1rem;
+  color: #FFFFFFCC;
+  font-weight: 500;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 500px;
 }
 
+/* === FORMULÁRIO === */
 .register-form {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Pode ajustar a largura conforme necessário */
-  max-width: 400px; /* Largura máxima do formulário */
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
 }
 
+/* Inputs */
 .register-form input {
-  padding: 12px; /* Padding interno dos inputs */
-  margin-bottom: 15px; /* Espaço entre os inputs */
-  border: 1px solid #ccc; /* Borda dos inputs */
-  border-radius: 5px; /* Bordas arredondadas */
-  font-size: 1rem; /* Tamanho da fonte dos inputs */
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #308331;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  color: #01692F;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.register-form input:focus {
+  border-color: #238682;
+  box-shadow: 0 0 6px rgba(35, 134, 130, 0.4);
+  outline: none;
+}
+
+/* Botão */
 .register-form button {
-  padding: 12px; /* Padding interno do botão */
-  background-color: #F57C29; /* Cor de fundo do botão */
-  color: #ffffff; /* Cor do texto do botão */
-  border: none; /* Sem borda */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-  font-size: 1rem; /* Tamanho da fonte do botão */
+  padding: 12px;
+  background-color: #308331 !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .register-form button:hover {
-  background-color: #fff; /* Cor de fundo ao passar o mouse */
-  color: #0C2963; /* Cor do texto ao passar o mouse */
+  background-color: #238682 !important;
+  transform: translateY(-3px);
 }
 
-/* Estilos Responsivos */
-@media (max-width: 600px) {
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
   .title {
-    font-size: 2rem; /* Tamanho da fonte do título em telas menores */
+    font-size: 2rem;
   }
-  
-  .register-form input {
-    font-size: 0.9rem; /* Tamanho da fonte dos inputs em telas menores */
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .register-form {
+    max-width: 340px;
+    padding: 20px;
+  }
+
+  .logo {
+    width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .register-form {
+    max-width: 300px;
   }
 
   .register-form button {
-    font-size: 0.9rem; /* Tamanho da fonte do botão em telas menores */
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 120px;
   }
 }

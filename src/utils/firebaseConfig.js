@@ -1,6 +1,16 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; // Importando as funções necessárias
-import { getFirestore, collection, addDoc, getDocs, Timestamp, writeBatch, doc, query, where } from "firebase/firestore"; // Adicionando query e where para filtragem
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  Timestamp,
+  writeBatch,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
 
 // Configuração do Firebase do seu aplicativo da web
 const firebaseConfig = { 
@@ -15,58 +25,88 @@ const firebaseConfig = {
 // Inicializando o Firebase
 const app = initializeApp(firebaseConfig);
 
-// Obtendo a instância de autenticação e Firestore
+// Instâncias
 const auth = getAuth(app);
-const db = getFirestore(app); // Inicializando o Firestore
+const db = getFirestore(app);
 
-// Função para adicionar inscrição no Firestore
+/* ===========================
+   🔒 UTILITÁRIOS DE TOKEN
+   =========================== */
+
+// Verifica no Firestore se este token já foi usado em alguma inscrição
+const isTokenUsado = async (token) => {
+  try {
+    if (!token) return true; // se não tem token, considera inválido/indisponível
+    const q = query(collection(db, "inscricoes"), where("token", "==", token));
+    const snap = await getDocs(q);
+    return !snap.empty; // true = já usado
+  } catch (e) {
+    console.error("Erro ao verificar token:", e.message);
+    // Em caso de erro, por segurança, tratamos como usado
+    return true;
+  }
+};
+
+/* ===========================
+   📥 INSCRIÇÕES / SORTEIO
+   =========================== */
+
+// Adiciona inscrição (agora aceita token opcional sem quebrar chamadas antigas)
 const adicionarInscricao = async (dadosInscricao) => {
   try {
-    const docRef = await addDoc(collection(db, "inscricoes"), {
+    const payload = {
       nomeCompleto: dadosInscricao.nomeCompleto,
       telefone: dadosInscricao.telefone,
       endereco: dadosInscricao.endereco,
       email: dadosInscricao.email,
-      dataInscricao: Timestamp.fromDate(new Date()), // Data e hora atual
-    });
+      dataInscricao: Timestamp.fromDate(new Date()),
+    };
+
+    // Se vier token no objeto, salva junto (sem obrigatoriedade)
+    if (dadosInscricao.token) {
+      payload.token = dadosInscricao.token;
+    }
+
+    const docRef = await addDoc(collection(db, "inscricoes"), payload);
     console.log("Inscrição registrada com ID:", docRef.id);
   } catch (e) {
-    console.error("Erro ao adicionar inscrição: ", e.message); // Exibe o erro com mais detalhes
+    console.error("Erro ao adicionar inscrição: ", e.message);
+    throw e;
   }
 };
 
-// Função para buscar inscrições
 const buscarInscricoes = async () => {
   try {
     const inscritos = [];
     const querySnapshot = await getDocs(collection(db, "inscricoes"));
     querySnapshot.forEach((doc) => {
-      inscritos.push({ id: doc.id, ...doc.data() }); // Adiciona os dados e o ID do documento
+      inscritos.push({ id: doc.id, ...doc.data() });
     });
     return inscritos;
   } catch (e) {
-    console.error("Erro ao buscar inscrições: ", e.message); // Exibe o erro com mais detalhes
-    throw e; // Re-throw para propagação do erro
+    console.error("Erro ao buscar inscrições: ", e.message);
+    throw e;
   }
 };
 
-// Função para realizar o sorteio
 const realizarSorteio = async () => {
   try {
     const inscritos = await buscarInscricoes();
     if (inscritos.length === 0) {
       throw new Error('Nenhuma inscrição encontrada.');
     }
-
-    const vencedor = inscritos[Math.floor(Math.random() * inscritos.length)]; // Escolhendo um vencedor aleatório
+    const vencedor = inscritos[Math.floor(Math.random() * inscritos.length)];
     return vencedor;
   } catch (e) {
     console.error("Erro ao realizar sorteio: ", e.message);
-    throw e; // Re-throw do erro
+    throw e;
   }
 };
 
-// Registrar uma nova venda no Firestore
+/* ===========================
+   💸 VENDAS
+   =========================== */
+
 const registrarVenda = async (nome, valor) => {
   try {
     if (valor < 15) {
@@ -79,12 +119,11 @@ const registrarVenda = async (nome, valor) => {
     });
     console.log('Venda registrada com sucesso!');
   } catch (e) {
-    console.error('Erro ao registrar venda:', e.message); // Exibe o erro com mais detalhes
-    throw e; // Re-throw para o código chamador tratar
+    console.error('Erro ao registrar venda:', e.message);
+    throw e;
   }
 };
 
-// Buscar vendas do Firestore
 const buscarVendas = async () => {
   try {
     const vendas = [];
@@ -95,15 +134,14 @@ const buscarVendas = async () => {
     return vendas;
   } catch (e) {
     console.error("Erro ao buscar vendas: ", e.message);
-    throw e; // Re-throw para o código chamador tratar
+    throw e;
   }
 };
 
-// Obter vendas por barraca
 const obterVendasPorBarraca = async (nomeBarraca) => {
   try {
     const vendas = [];
-    const q = query(collection(db, 'vendas'), where("nome", "==", nomeBarraca)); // Filtrando por nome da barraca
+    const q = query(collection(db, 'vendas'), where("nome", "==", nomeBarraca));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       vendas.push({ id: doc.id, ...doc.data() });
@@ -111,38 +149,39 @@ const obterVendasPorBarraca = async (nomeBarraca) => {
     return vendas;
   } catch (e) {
     console.error("Erro ao buscar vendas por barraca: ", e.message);
-    throw e; // Re-throw do erro
+    throw e;
   }
 };
 
-// Limpar todas as vendas do Firestore
 const limparVendasFirestore = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, 'vendas'));
-    const batch = writeBatch(db); // Usando o writeBatch (correto para Firestore v9+)
+    const batch = writeBatch(db);
 
     querySnapshot.forEach((docSnapshot) => {
-      batch.delete(doc(db, 'vendas', docSnapshot.id)); // Criando a referência e deletando
+      batch.delete(doc(db, 'vendas', docSnapshot.id));
     });
 
-    await batch.commit(); // Commitando todas as operações de uma vez
+    await batch.commit();
     console.log('Todas as vendas foram limpas!');
   } catch (error) {
-    console.error('Erro ao limpar vendas:', error.message); // Exibe o erro com mais detalhes
+    console.error('Erro ao limpar vendas:', error.message);
   }
 };
 
-// Exportando as funções necessárias
+// Exportações
 export { 
-  auth, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  db, 
-  adicionarInscricao, 
-  buscarInscricoes, 
-  realizarSorteio, 
-  registrarVenda, 
-  buscarVendas, 
-  obterVendasPorBarraca, 
-  limparVendasFirestore 
+  auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  db,
+  adicionarInscricao,
+  buscarInscricoes,
+  realizarSorteio,
+  registrarVenda,
+  buscarVendas,
+  obterVendasPorBarraca,
+  limparVendasFirestore,
+  // 🔒 novo utilitário
+  isTokenUsado,
 };

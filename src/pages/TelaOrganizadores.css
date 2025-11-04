@@ -6,9 +6,11 @@
 }
 
 html, body {
-  height: 100%; /* Garante que o body ocupe 100% da altura da janela */
-  overflow-x: hidden; /* Remove a rolagem horizontal */
-  overflow-y: auto; /* Habilita rolagem vertical */
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: 'Neulis Alt', sans-serif;
+  background-color: #01692F;
 }
 
 /* Estilização do container principal */
@@ -17,16 +19,23 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: linear-gradient(135deg, #0C2963 30%, #190808 100%); /* Gradiente de fundo */
-  padding: 40px 20px; /* Padding superior e inferior */
-  min-height: 100vh; /* Garante que a altura mínima da página permita rolagem */
+  background: linear-gradient(135deg, #01692F 30%, #097044 100%) !important;
+  padding: 40px 20px;
+  min-height: 100vh;
+  text-align: center;
 }
 
 /* Logo */
 .logo {
-  width: 150px;
+  width: 160px;
   height: auto;
-  margin-bottom: 30px; /* Espaçamento abaixo da logo */
+  margin-bottom: 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
 }
 
 h3 {
@@ -38,20 +47,24 @@ h3 {
 
 /* Título principal */
 .title {
-  font-size: 2.5rem; /* Aumentado para maior destaque */
-  color: #E8CB67; /* Cor que se destaca e combina com a paleta */
+  font-size: 2.5rem;
+  color: #F1F9F0;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px; /* Aumentado para um espaço mais amplo */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra para destaque */
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Total de vendas */
 .total-vendas {
-  font-size: 1.8rem; /* Aumentado para melhor legibilidade */
-  color: #E8CB67; /* Consistente com a paleta de cores */
-  margin-bottom: 15px;
+  font-size: 1.8rem;
+  color: #F1F9F0;
+  margin-bottom: 20px;
   font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Lista de cards */
@@ -59,91 +72,103 @@ h3 {
   list-style-type: none;
   padding: 0;
   width: 100%;
-  max-width: 600px; /* Limita a largura dos cards */
-  margin: 0; /* Remove margem para centralizar */
-  display: grid; /* Usando grid para melhor disposição */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Cards responsivos */
-  gap: 15px; /* Espaçamento entre os cards */
+  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 /* Estilo dos cards */
-.card { /* Aplica o estilo aos cards */
-  background-color: #F9D67A; /* Cor de fundo dos cards */
-  border-radius: 8px;
-  padding: 20px; /* Aumentado para maior conforto visual */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
-  font-size: 1.2rem; /* Aumentado para legibilidade */
-  color: #333; /* Texto em cinza escuro */
-  text-align: center; /* Centraliza o texto nos cards */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suavização de transição */
+.card {
+  background-color: #F1F9F0; /* Fundo claro contrastante */
+  border-left: 6px solid #308331; /* Borda com verde secundário */
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 1.2rem;
+  color: #097044;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 }
 
 /* Títulos e valores dentro dos cards */
 .card-title {
-  font-weight: bold; /* Destaca o nome da barraca */
-  font-size: 1.4rem; /* Aumenta o tamanho da fonte */
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #01692F;
 }
 
 .card-value {
-  display: block; /* Faz o valor ocupar uma linha separada */
-  margin-top: 5px; /* Espaço entre o título e o valor */
-  font-size: 1.2rem; /* Tamanho da fonte do valor */
-  color: #0C2963; /* Cor do valor */
-}
-
-/* Efeito de elevação nos cards */
-.card:hover {
-  transform: translateY(-5px); /* Efeito de destaque ao passar o mouse */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* Sombra mais intensa ao passar o mouse */
+  display: block;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  color: #238682;
+  font-weight: 500;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .cards-list {
-    grid-template-columns: 1fr; /* Cards em coluna */
-  }
-}
-
-@media (min-width: 768px) {
-  .organizadores-container {
-    padding: 60px; /* Aumentado para maior espaço em telas grandes */
+    grid-template-columns: 1fr;
   }
 
   .title {
-    font-size: 3rem; /* Aumentado para telas maiores */
+    font-size: 2rem;
   }
 
   .total-vendas {
-    font-size: 2.5rem; /* Aumentado para maior destaque */
+    font-size: 1.5rem;
   }
 
-  .cards-list .card {
-    font-size: 1.3rem; /* Aumentado para legibilidade em telas grandes */
+  .logo {
+    width: 130px;
   }
 }
 
 /* Estilo dos botões */
 .button {
-  padding: 12px 25px; /* Aumentado para conforto */
-  margin: 10px; /* Espaçamento consistente */
-  background-color: #0C2963; /* Cor consistente com o tema */
-  color: #ffffff; /* Texto branco */
-  border: none; /* Sem borda */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor de ponteiro */
-  font-size: 16px; /* Tamanho da fonte */
-  transition: background-color 0.3s ease; /* Suavização de transição */
+  padding: 12px 25px;
+  margin: 10px;
+  background-color: #308331 !important;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .button:hover {
-  background-color: #1D3B85; /* Cor ao passar o mouse */
+  background-color: #238682 !important;
+  transform: translateY(-3px);
 }
 
 /* Botão limpar */
 .limpar {
-  background-color: red; /* Cor de fundo */
+  background-color: #A61D1D !important;
+}
+.limpar:hover {
+  background-color: #8B1414 !important;
 }
 
-.limpar:hover {
-  background-color: darkred; /* Cor ao passar o mouse */
+/* Espaçamento adicional para telas grandes */
+@media (min-width: 1024px) {
+  .organizadores-container {
+    padding: 60px 80px;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .cards-list .card {
+    font-size: 1.3rem;
+  }
 }
