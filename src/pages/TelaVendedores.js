@@ -5,13 +5,22 @@ import { registrarVenda, obterVendasPorBarraca } from '../utils/firebaseConfig';
 import './TelaVendedores.css';
 
 const TelaVendedores = () => {
-  const [nomeBarraca, setNomeBarraca] = useState('');
+  // Lê o nome salvo no login
+  const initialNome =
+    (typeof window !== 'undefined' &&
+      (localStorage.getItem('vendorNome') || localStorage.getItem('vendorEmail'))) ||
+    '';
+
+  const [nomeBarraca, setNomeBarraca] = useState(initialNome.toUpperCase());
   const [valorVenda, setValorVenda] = useState('');
   const [qrCode, setQrCode] = useState('');
   const [qrCodeAtivo, setQrCodeAtivo] = useState(false);
   const [contador, setContador] = useState(60);
   const [mensagemSucesso, setMensagemSucesso] = useState('');
   const [totalVendasBarraca, setTotalVendasBarraca] = useState(0);
+
+  // Nome bloqueado sempre (sem botões)
+  const [lockNome] = useState(true);
 
   // Função para gerar QR Code e registrar venda
   const gerarQRCode = async () => {
@@ -22,29 +31,30 @@ const TelaVendedores = () => {
       const urlFormulario = `https://expobanzae2025.vercel.app/formulario-cliente?token=${token}`;
 
       try {
-        // Registra a venda
-        await registrarVenda(nomeBarraca, valorNumerico);
+        // Nome da barraca em maiúsculo no registro
+        await registrarVenda(nomeBarraca.toUpperCase(), valorNumerico);
 
-        // Ativa o novo QR Code
         setQrCode(urlFormulario);
         setQrCodeAtivo(true);
-        setMensagemSucesso(`Venda registrada com sucesso! Barraca: ${nomeBarraca}, Valor: R$ ${valorVenda}`);
+        setMensagemSucesso(
+          `Venda registrada com sucesso! Barraca: ${nomeBarraca.toUpperCase()}, Valor: R$ ${valorVenda}`
+        );
+        atualizarTotalVendas(nomeBarraca.toUpperCase());
 
-        // Atualiza o total de vendas
-        atualizarTotalVendas(nomeBarraca);
-
-        // Reinicia o contador (sem limpar o nome da barraca)
+        setValorVenda('');
         setContador(60);
       } catch (e) {
-        alert('Erro ao registrar venda. Tente novamente.');
         console.error(e);
+        alert('Erro ao registrar venda. Tente novamente.');
       }
     } else {
-      alert('O valor da venda deve ser igual ou superior a R$ 15,00 e o nome da barraca não pode estar vazio.');
+      alert(
+        'O valor da venda deve ser igual ou superior a R$ 15,00 e o nome da barraca não pode estar vazio.'
+      );
     }
   };
 
-  // Atualiza total de vendas da barraca
+  // Atualiza total de vendas
   const atualizarTotalVendas = async (barraca) => {
     try {
       const vendas = await obterVendasPorBarraca(barraca);
@@ -55,24 +65,21 @@ const TelaVendedores = () => {
     }
   };
 
-  // Gerencia o contador
+  // Contador de expiração do QR Code
   useEffect(() => {
     if (qrCodeAtivo && contador > 0) {
-      const timer = setTimeout(() => setContador(contador - 1), 1000);
+      const timer = setTimeout(() => setContador((c) => c - 1), 1000);
       return () => clearTimeout(timer);
     } else if (contador === 0 && qrCodeAtivo) {
-      // Quando o QR expira, apenas desativa o QR atual — sem travar o sistema
       setQrCodeAtivo(false);
       setQrCode('');
       setMensagemSucesso('');
     }
   }, [contador, qrCodeAtivo]);
 
-  // Atualiza total sempre que a barraca muda
+  // Atualiza total quando o nome muda
   useEffect(() => {
-    if (nomeBarraca.trim() !== '') {
-      atualizarTotalVendas(nomeBarraca);
-    }
+    if (nomeBarraca.trim() !== '') atualizarTotalVendas(nomeBarraca);
   }, [nomeBarraca]);
 
   return (
@@ -80,17 +87,27 @@ const TelaVendedores = () => {
       <img src={logo} alt="Logo do Evento" className="logo" />
       <h1 className="title">Vendas</h1>
       <p className="descriptionvv">
-        Preencha o nome da sua barraca e o valor da venda.<br />
+        Preencha o nome da sua barraca e o valor da venda.
+        <br />
         Em seguida, clique em "Gerar QR Code" para registrar a venda.
       </p>
 
+      {/* Campo Nome da Barraca (sempre em MAIÚSCULAS e bloqueado) */}
       <input
         className="input"
         type="text"
         placeholder="Nome da Barraca"
         value={nomeBarraca}
-        onChange={(e) => setNomeBarraca(e.target.value)}
+        onChange={(e) => setNomeBarraca(e.target.value.toUpperCase())}
+        readOnly={lockNome}
+        style={{
+          textTransform: 'uppercase',
+          backgroundColor: '#e9f7ef',
+          borderStyle: 'dashed',
+        }}
       />
+
+      {/* Campo Valor da Venda */}
       <input
         className="input"
         type="number"
@@ -106,7 +123,10 @@ const TelaVendedores = () => {
       {mensagemSucesso && <p className="mensagemSucesso">{mensagemSucesso}</p>}
 
       <div className="totalVendas">
-        <p><strong>Total de Vendas desta Barraca:</strong> R$ {totalVendasBarraca.toFixed(2)}</p>
+        <p>
+          <strong>Total de Vendas desta Barraca:</strong> R${' '}
+          {totalVendasBarraca.toFixed(2)}
+        </p>
       </div>
 
       {qrCodeAtivo && qrCode && (
