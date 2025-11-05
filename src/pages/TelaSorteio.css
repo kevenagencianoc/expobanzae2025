@@ -1,22 +1,29 @@
+/* === CONTAINER PRINCIPAL === */
 .sorteio-container { 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(135deg, #01692F 30%, #097044 100%) !important;
+  background: 
+    linear-gradient(135deg, rgba(1,105,47,0.9) 30%, rgba(9,112,68,0.9) 100%), 
+    url('../assets/fotopalco.png') center center / cover no-repeat; /* imagem + overlay verde */
   padding: 20px;
   text-align: center;
   overflow: hidden;
+  background-attachment: fixed; /* deixa bonito no palco */
 }
 
 /* === MODO PALCO === */
 .sorteio-container.palco {
-  background: radial-gradient(circle, #01692F 20%, #013a21 100%);
+  background:
+    linear-gradient(135deg, rgba(1,105,47,0.85) 20%, rgba(1,58,33,0.85) 100%),
+    url('../assets/fotopalco.png') center center / cover no-repeat;
   color: white;
   height: 100vh;
   width: 100vw;
   animation: brilhoFundo 6s ease-in-out infinite alternate;
+  background-attachment: fixed;
 }
 
 @keyframes brilhoFundo {
@@ -70,7 +77,7 @@
   background: #b71c1c;
 }
 
-/* === RESTANTE (mesmo estilo anterior) === */
+/* === TÍTULOS E RESULTADO === */
 .title {
   color: #F1F9F0 !important;
   font-size: 2.6rem;
@@ -99,22 +106,23 @@
   transform: translateY(-3px);
 }
 
-/* Corrige cores do texto do vencedor */
+/* === RESULTADO (NOME DO GANHADOR) === */
 .resultado h2,
 .resultado p,
 .resultado strong {
-  color: #000 !important; /* Texto preto para melhor contraste */
-  background-color: #fff;
-  padding: 15px 30px 15px 30px;
+  color: #000 !important;
+  background-color: rgba(255,255,255,0.9);
+  padding: 15px 30px;
   border-radius: 30px;
   margin-top: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.25);
 }
 
 .resultado p strong {
   color: #000 !important;
 }
 
-
+/* === ANIMAÇÕES === */
 .animando {
   animation: girar 1s infinite alternate;
 }
